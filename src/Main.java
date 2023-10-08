@@ -3,8 +3,109 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        Board board = new Board();
-        Board.printBoard(Board.board);
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Let's play a game of tic tac toe!");
+        System.out.println();
+        System.out.println("Please enter the name of player one:");
+        String name1 = sc.nextLine();
+        System.out.println("Please enter the name of player two:");
+        String name2 = sc.nextLine();
+        Player player1 = new Player(name1, 'X');
+        Player player2 = new Player(name2, 'O');
+        boolean stillPlaying = true;
+
+        while (stillPlaying) {
+            Board board = new Board();
+            char[][] b = board.board;
+            Board.printBoard(b);
+            boolean gameOver = false;
+            Player currentPlayer = player1;
+            currentPlayer.starting = true;
+            // En spelomgång:
+            while (!gameOver) {
+                System.out.println(currentPlayer.name + ", where would you like to place your " +
+                        currentPlayer.symbol + "? (1-9)");
+                boolean validInput = false;
+                while (!validInput) {
+                    // TODO gör en try/catch här för att gardera mot att användaren inte skriver int
+                    int move = sc.nextInt();
+                    sc.nextLine();
+                    int i = 0; // row
+                    int j = 0; // column
+                    switch (move) {
+                        case 1, 2, 3 -> {
+                            i = 1;
+                            validInput = true;
+                        }
+                        case 4, 5, 6 -> {
+                            i = 3;
+                            validInput = true;
+                        }
+                        case 7, 8, 9 -> {
+                            i = 5;
+                            validInput = true;
+                        }
+                        default -> {
+                        }
+                    }
+                    validInput = false;
+                    switch (move) {
+                        case 1, 4, 7 -> {
+                            j = 3;
+                            validInput = true;
+                        }
+                        case 2, 5, 8 -> {
+                            j = 9;
+                            validInput = true;
+                        }
+                        case 3, 6, 9 -> {
+                            j = 15;
+                            validInput = true;
+                        }
+                        default -> {
+                        }
+                    }
+                    //check if field is already occupied
+                    if (b[i][j] != ' ') {
+                        System.out.println("That space is already occupied!");
+                    }
+                    else {
+                        b[i][j] = currentPlayer.symbol;
+                        validInput = true;
+                        Board.printBoard(b);
+                        if (Board.threeInRow(b)) {
+                            System.out.println(currentPlayer.name + " has three in a row!"); //TODO fixa detta:
+                            // blir ju fel om den spelare som inte är starting har kört sitt sista drag
+                            // kanske Player kan ha en instansvariabel winner istället
+                            // måste också kolla draw
+                            // fråga sedan om man vill spela igen
+                            if (currentPlayer.starting) {
+                                if (currentPlayer == player1) {
+                                    System.out.println(player2.name + " has one move left to make a draw.");
+                                } else {
+                                    System.out.println(player1.name + " has one move left to make a draw.");
+                                }
+                            }
+                            else {
+                                System.out.println(currentPlayer.name.toUpperCase() + " WINS!"); //kan bli fel spelare, se ovan
+                                currentPlayer.score ++; // samma här
+                                gameOver = true;
+                            }
+                        }
+                        if (currentPlayer == player1) {
+                            currentPlayer = player2;
+                        }
+                        else {
+                            currentPlayer = player1;
+                        }
+                    }
+                }
+
+
+
+        }
+
 
         /*
         TODO:
@@ -15,7 +116,8 @@ public class Main {
         Starta en spelloop, håll koll på vems tur det är (instansvariabel i Player?),
         låt varje spelare i tur och ordning ange ett nummer 1-9 för var de vill placera sin symbol.
         Kolla att fältet är tomt. Om det är det, skriv ut spelplanen med den tillagda symbolen.
-        Skapa en funktion som kollar om någon vinner. Kolla sedan om det i nästa drag blir oavgjort.
+        Skapa en funktion som kollar om någon vinner. (EV: Kolla sedan om det i nästa drag blir oavgjort.)
+        Om brädet är fullt men ingen vunnit ska det också bli oavgjort och game over.
 
          */
 
@@ -36,4 +138,4 @@ public class Main {
 
 
 
-}
+}}

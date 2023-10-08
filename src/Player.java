@@ -1,9 +1,12 @@
 public class Player {
     public String name;
-    public String symbol;
+    public char symbol;
+    public boolean starting;
+    int score = 0;
 
-    public Player(String name, String symbol) {
+    public Player(String name, char symbol) {
         this.name = name;
         this.symbol = symbol;
     }
+
 }
