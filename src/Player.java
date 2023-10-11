@@ -4,7 +4,7 @@ public class Player {
     public String name;
     public char symbol;
     public boolean isHuman;
-    public boolean starting; // får se om den verkligen behövs
+    public boolean starting;
     int score = 0;
     public static Random rand = new Random();
 
@@ -53,5 +53,22 @@ public class Player {
             return false;
         }
         return true;
+    }
+
+    public static void printScore(Player player1, Player player2) {
+        int nameLength1 = player1.name.length();
+        int nameLength2 = player2.name.length();
+        int lengthDifference = Math.max(nameLength1, nameLength2) - Math.min(nameLength1, nameLength2);
+        StringBuilder space = new StringBuilder();
+        for (int i = 0; i < lengthDifference; i++) {
+            space.append(" ");
+        }
+        if (nameLength1 < nameLength2) {
+            System.out.println(player1.name + " " + space + player1.score);
+            System.out.println(player2.name + " " + player2.score);
+        } else {
+            System.out.println(player1.name + " " + player1.score);
+            System.out.println(player2.name + " " + space + player2.score);
+        }
     }
 }
