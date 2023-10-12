@@ -71,7 +71,7 @@ public class Main {
 
                     }
                 } else { // if currentPlayer is not human
-                    Player.makeComputerMove(b, currentPlayer);
+                    Player.makeRandomComputerMove(b, currentPlayer);
                 }
 
                 if (Board.threeInRow(b)) { // checks if current player wins
